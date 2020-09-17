@@ -1,0 +1,8 @@
+main: "${project.groupId}.${project.artifactId}"
+name: "${project.name}"
+version: "${project.version}"
+author: JustEli
+api-version: "1.14"
+loadbefore:
+  - GriefPrevention
+  - WorldGuard

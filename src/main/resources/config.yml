@@ -1,0 +1,131 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#   _____                                _______   _            _____                     #
+#  / ____|                              |__   __| (_)          / ____|                    #
+# | |     _ __ ___  ___ _ __   ___ _ __ ___| |_ __ _ _ __ ___ | |  __ _ __ __ _ ___ ___   #
+# | |    | '__/ _ \/ _ \ '_ \ / _ \ '__/ __| | '__| | '_ ` _ \| | |_ | '__/ _` / __/ __|  #
+# | |____| | |  __/  __/ |_) |  __/ |  \__ \ | |  | | | | | | | |__| | | | (_| \__ \__ \  #
+#  \_____|_|  \___|\___| .__/ \___|_|  |___/_|_|  |_|_| |_| |_|\_____|_|  \__,_|___/___/  #
+#                      | |                                                                #
+#                      |_|                                           Version 1 by JustEli #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Disable block transformations when creeper exploded in a WorldGuard region.
+disableInRegions: true
+
+# Disable the explosion of entities that aren't mobs, like item frames and armor stands.
+disableDamageToNonMobs: true
+
+# The blocks (materials) that are affected by creeper explosions. All allowed materials:
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+creeperBreakBlocks:
+  # Not a Material in Minecraft, so it is defined at 'definitions,' down the config.
+  TRIMMABLE:
+    # Enable this block modification under sea level only, which is below Y 64.
+    underSeaLevelOnly: false
+    # Disable the modification of this block in GriefPrevention claims.
+    disableInClaims: false
+    conversion:
+      # The exploded block will be converted to 8% coarse dirt and 92% dirt.
+      COARSE_DIRT: 0.08
+      DIRT: 0.92
+  # This is a Material in Minecraft, so it is not defined down the config.
+  STONE:
+    underSeaLevelOnly: true
+    disableInClaims: false
+    conversion:
+      INFESTED_COBBLESTONE: 0.01
+      COBBLESTONE: 0.99
+  SNOW:
+    underSeaLevelOnly: false
+    disableInClaims: false
+    conversion:
+      AIR: 1.00
+  GRASSES:
+    underSeaLevelOnly: false
+    disableInClaims: false
+    conversion:
+      AIR: 1.00
+  LEAVES:
+    underSeaLevelOnly: false
+    disableInClaims: true
+    conversion:
+      AIR: 1.00
+  FLOWERS:
+    underSeaLevelOnly: false
+    disableInClaims: true
+    conversion:
+      AIR: 1.00
+  GLASS_PANES:
+    underSeaLevelOnly: false
+    disableInClaims: true
+    conversion:
+      # The exploded block will be converted to 20% air and 80% stay intact.
+      AIR: 0.20
+
+# The definitions for non-existing blocks used above; like LEAVES, GRASSES, FLOWERS.
+definitions:
+  TRIMMABLE:
+    - GRASS_BLOCK
+    - MYCELIUM
+  LEAVES:
+    - OAK_LEAVES
+    - SPRUCE_LEAVES
+    - BRICH_LEAVES
+    - JUNGLE_LEAVES
+    - ACACIA_LEAVES
+    - DARK_OAK_LEAVES
+  GRASSES:
+    - GRASS
+    - FERN
+    - LARGE_FERN
+    - TALL_GRASS
+    - DEAD_BUSH
+  FLOWERS:
+    - DANDELLION
+    - POPPY
+    - BLUE_ORCHID
+    - ALLIUM
+    - AZURE_BLUET
+    - RED_TULIP
+    - WHITE_TULIP
+    - ORANGE_TULIP
+    - PINK_TULIP
+    - OXEYE_DAISY
+    - CORNFLOWER
+    - LILY_OF_THE_VALLEY
+    - SUNFLOWER
+    - LILAC
+    - ROSE_BUSH
+    - PEONY
+    - OAK_SAPLING
+    - SPRUCE_SAPLING
+    - BRICH_SAPLING
+    - JUNGLE_SAPLING
+    - ACACIA_SAPLING
+    - DARK_OAK_SAPLING
+    - BROWN_MUSHROOM
+    - RED_MUSHROOM
+    - POTATOES
+    - WHEAT
+    - CARROTS
+    - MELON_STEM
+    - PUMPKIN_STEM
+    - BEETROOTS
+  GLASS_PANES:
+    - GLASS_PANE
+    - WHITE_STAINED_GLASS_PANE
+    - ORANGE_STAINED_GLASS_PANE
+    - MAGENTA_STAINED_GLASS_PANE
+    - LIGHT_BLUE_STAINED_GLASS_PANE
+    - YELLOW_STAINED_GLASS_PANE
+    - LIME_STAINED_GLASS_PANE
+    - PINK_STAINED_GLASS_PANE
+    - GRAY_STAINED_GLASS_PANE
+    - LIGHT_GRAY_STAINED_GLASS_PANE
+    - CYAN_STAINED_GLASS_PANE
+    - PURPLE_STAINED_GLASS_PANE
+    - BLUE_STAINED_GLASS_PANE
+    - BROWN_STAINED_GLASS_PANE
+    - GREEN_STAINED_GLASS_PANE
+    - RED_STAINED_GLASS_PANE
+    - BLACK_STAINED_GLASS_PANE
