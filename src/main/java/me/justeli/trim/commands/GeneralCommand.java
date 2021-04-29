@@ -23,7 +23,26 @@ public class GeneralCommand
     public GeneralCommand (CreepersTrimGrass instance)
     {
         this.instance = instance;
-        async().run(() -> this.latestVersion = Util.getLatestVersion("JustEli/CreepersTrimGrass"));
+        async().run(() ->
+        {
+            this.latestVersion = Util.getLatestVersion("JustEli/CreepersTrimGrass");
+
+            if (this.latestVersion == null)
+            {
+                this.latestVersion = instance.getDescription().getVersion();
+                return;
+            }
+
+            if (!instance.getDescription().getVersion().equals(this.latestVersion))
+            {
+                instance.getLogger().warning(" ------------------------------------------------------------------");
+                instance.getLogger().warning("   You're running an outdated version of CreepersTrimGrass.");
+                instance.getLogger().warning("   The version installed is " + instance.getDescription().getVersion()
+                        + ", while " + this.latestVersion + " is out!");
+                instance.getLogger().warning("   https://www.spigotmc.org/resources/creepers-trim-grass.73305/");
+                instance.getLogger().warning(" ------------------------------------------------------------------");
+            }
+        });
     }
 
     @Override
@@ -33,15 +52,15 @@ public class GeneralCommand
     }
 
     @CommandMethod("creeperstrimgrass [argument]")
-    @CommandPermission("creeperstrimgrass.command")
+    @CommandPermission("creeperstrimgrass.admin")
     public void ctg (CommandSender sender,
             @Argument("argument") @Completions("help, reload, version") String argument)
     {
         if (argument == null || argument.equalsIgnoreCase("help"))
         {
-            sender.sendMessage("/ctg help");
-            sender.sendMessage("/ctg reload");
-            sender.sendMessage("/ctg version");
+            sender.sendMessage(Util.color("&e/creeperstrimgrass help &f- show this page"));
+            sender.sendMessage(Util.color("&e/creeperstrimgrass reload &f- reload config settings"));
+            sender.sendMessage(Util.color("&e/creeperstrimgrass version &f- check for updates"));
             return;
         }
 

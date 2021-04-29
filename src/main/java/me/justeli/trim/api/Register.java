@@ -11,13 +11,16 @@ import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
 import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.paper.PaperCommandManager;
+import community.leaf.tasks.bukkit.BukkitTaskSource;
 import me.justeli.trim.CreepersTrimGrass;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -25,7 +28,7 @@ import java.util.function.Function;
  * Created by Eli on April 29, 2021.
  * CreepersTrimGrass: me.justeli.trim.api
  */
-public class Register
+public class Register implements BukkitTaskSource
 {
     private final CreepersTrimGrass instance;
 
@@ -33,6 +36,12 @@ public class Register
     {
         this.instance = instance;
         setupCommandManager();
+    }
+
+    @Override
+    public Plugin plugin ()
+    {
+        return instance;
     }
 
     private BukkitCommandManager<CommandSender> commandManager;
@@ -61,10 +70,13 @@ public class Register
         }
     }
 
-    public void metrics (int pluginId, Consumer<Metric> consumer)
+    public void metrics (final int pluginId, final Consumer<Metric> consumer)
     {
-        Metrics metrics = new Metrics(instance, pluginId);
-        consumer.accept(new Metric(metrics));
+        async().delay(1, TimeUnit.MINUTES).run(() ->
+        {
+            Metrics metrics = new Metrics(instance, pluginId);
+            consumer.accept(new Metric(metrics));
+        });
     }
 
     public static class Metric

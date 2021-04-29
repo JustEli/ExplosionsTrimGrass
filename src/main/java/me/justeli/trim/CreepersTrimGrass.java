@@ -4,7 +4,7 @@ import me.justeli.trim.api.Register;
 import me.justeli.trim.commands.GeneralCommand;
 import me.justeli.trim.config.ConfigCache;
 import me.justeli.trim.handlers.DamageBlocker;
-import me.justeli.trim.handlers.Integration;
+import me.justeli.trim.integration.Integration;
 import me.justeli.trim.handlers.TrimEffect;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,7 +28,10 @@ public class CreepersTrimGrass extends JavaPlugin
         register.commands(new GeneralCommand(this));
         register.metrics(11185, metric ->
         {
-            metric.add("amountOfTransformers", 7);
+            metric.add("totalBlockTransformers", configCache.totalTransformers());
+            metric.add("disableDamageToNonMobs", configCache.disableDamageToNonMobs());
+            metric.add("installedWorldGuard", Integration.isWorldGuardLoaded());
+            metric.add("installedGriefPrevention", Integration.isWorldGuardLoaded());
         });
     }
 

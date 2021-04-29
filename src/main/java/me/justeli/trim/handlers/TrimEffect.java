@@ -51,11 +51,7 @@ public class TrimEffect
         if (!(event.getEntity() instanceof Creeper))
             return;
 
-        boolean belowSeaLevel = false;
-        boolean insideClaim = true;
-        boolean inRegion = true;
-
-        instance.getServer().getPluginManager().callEvent(new CreeperTrimEvent(event, belowSeaLevel, insideClaim, inRegion));
+        instance.getServer().getPluginManager().callEvent(new CreeperTrimEvent(event));
     }
 
     @EventHandler
@@ -72,6 +68,15 @@ public class TrimEffect
             {
                 ConfiguredBlock configuredBlock = instance.getConfigCache().getConfiguredBlock(block.getType());
                 if (configuredBlock == null)
+                    continue;
+
+                if (configuredBlock.isDisabledInClaims() && event.isInsideClaim())
+                    continue;
+
+                if (configuredBlock.isDisabledInRegions() && event.isInRegion())
+                    continue;
+
+                if (configuredBlock.isUnderSeaLevelOnly() && !event.isBelowSeaLevel())
                     continue;
 
                 Material setTo = configuredBlock.getRandomTransform();
@@ -93,26 +98,5 @@ public class TrimEffect
         });
 
         event.getBlockList().clear();
-    }
-
-    private boolean isClaimAt (Location location)
-    {
-        if (!Integration.Plugin.GRIEF_PREVENTION.isActive())
-            return false;
-
-        return GriefPrevention.instance.dataStore.getClaimAt(location, true, null) != null;
-    }
-
-    private boolean isRegionAt (Location location)
-    {
-        if (Integration.Plugin.WORLD_GUARD.isActive())
-        {
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            //query.getApplicableRegions().si
-
-        }
-        //todo
-        return false;
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>me.justeli.trim</groupId>
     <artifactId>CreepersTrimGrass</artifactId>
-    <version>b1.0</version>
+    <version>1.0</version>
     <name>CreepersTrimGrass</name>
     <url>https://www.spigotmc.org/resources/creepers-trim-grass.73305/</url>
 
@@ -45,6 +45,7 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <configuration>
+
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <filters>
                         <filter>
@@ -76,6 +77,17 @@
                         </relocation>
 
                     </relocations>
+
+                    <artifactSet>
+                        <excludes>
+                            <exclude>com.google.code.findbugs:jsr305</exclude>
+                            <exclude>org.checkerframework:checker-qual</exclude>
+                            <exclude>org.jetbrains:annotations</exclude>
+                            <exclude>org.jetbrains.kotlin:kotlin-annotations-jvm</exclude>
+                            <exclude>pl.tlinkowski.annotation:pl.tlinkowski.annotation.basic</exclude>
+                        </excludes>
+                    </artifactSet>
+
                 </configuration>
                 <executions>
                     <execution>

@@ -1,5 +1,8 @@
 package me.justeli.trim.event;
 
+import me.justeli.trim.integration.GriefPrevention;
+import me.justeli.trim.integration.Integration;
+import me.justeli.trim.integration.WorldGuard;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Creeper;
@@ -20,12 +23,12 @@ public class CreeperTrimEvent extends Event
     private final boolean insideClaim;
     private final boolean inRegion;
 
-    public CreeperTrimEvent (EntityExplodeEvent event, boolean belowSeaLevel, boolean insideClaim, boolean inRegion)
+    public CreeperTrimEvent (EntityExplodeEvent event)
     {
         this.event = event;
-        this.belowSeaLevel = belowSeaLevel;
-        this.insideClaim = insideClaim;
-        this.inRegion = inRegion;
+        this.belowSeaLevel = event.getLocation().getY() < 64;
+        this.insideClaim = Integration.isGriefPreventionLoaded() && GriefPrevention.isClaimAt(event.getLocation());
+        this.inRegion = Integration.isWorldGuardLoaded() && WorldGuard.isRegionAt(event.getLocation());
     }
 
     public boolean isBelowSeaLevel ()

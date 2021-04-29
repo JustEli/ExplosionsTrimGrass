@@ -109,6 +109,13 @@ public class ConfigCache
         }
     }
 
+    private int totalTransformers;
+
+    public int totalTransformers ()
+    {
+        return totalTransformers;
+    }
+
     private void setTransformBlocks (FileConfiguration config)
     {
         ConfigurationSection section = config.getConfigurationSection("creeperTransformBlocks");
@@ -119,7 +126,10 @@ public class ConfigCache
         boolean disableInClaims = config.getBoolean("defaultValues.disableInClaims", false);
         boolean disableInRegions = config.getBoolean("defaultValues.disableInRegions", true);
 
-        for (String key : section.getKeys(false))
+        Set<String> keys = section.getKeys(false);
+        this.totalTransformers = keys.size();
+
+        for (String key : keys)
         {
             Set<Material> materials = getBlockFromName(key.toUpperCase());
             ConfigurationSection part = section.getConfigurationSection(key);

@@ -42,7 +42,7 @@ creeperTransformBlocks:
     # Convert the affected blocks (in this case GRASS_BLOCK and MYCELIUM) into ...
     conversion:
       # The affected block by the explosion will be converted to ...
-      COARSE_DIRT: 0.08   # 8% coarse dirt
+      COARSE_DIRT: 0.08   # 8% coarse dirt (can use a hoe in-game to make it dirt!)
       DIRT: 0.92          # and 92% dirt
   # This is a Material (STONE), so it is not defined down the config.
   STONE:
