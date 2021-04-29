@@ -1,4 +1,4 @@
-package me.justeli.trim;
+package me.justeli.trim.handlers;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

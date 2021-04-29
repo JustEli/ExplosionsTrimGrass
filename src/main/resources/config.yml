@@ -6,64 +6,77 @@
 # | |____| | |  __/  __/ |_) |  __/ |  \__ \ | |  | | | | | | | |__| | | | (_| \__ \__ \  #
 #  \_____|_|  \___|\___| .__/ \___|_|  |___/_|_|  |_|_| |_| |_|\_____|_|  \__,_|___/___/  #
 #                      | |                                                                #
-#                      |_|                                           Version 1 by JustEli #
+#                      |_|                                                     by JustEli #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Disable block transformations when creeper exploded in a WorldGuard region.
-disableInRegions: true
-
-# Disable the explosion of entities that aren't mobs, like item frames and armor stands.
+# Disable entities that aren't mobs--like item frames and armor stands--to take damage of
+#   explosions from creepers. So, disable damage done by creeper explosions to those.
 disableDamageToNonMobs: true
 
-# The blocks (materials) that are affected by creeper explosions. All allowed materials:
-# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-creeperBreakBlocks:
-  # Not a Material in Minecraft, so it is defined at 'definitions,' down the config.
+# Set values down here to what you want the global default to be for the section
+#   'creeperTransformBlocks'. You can change the value per block, but these will be the
+#   default, and are able to be overridden by adding it to the block section you don't
+#   want the default value to count for.
+defaultValues:
+  # Enable creeper block modification under sea level only, which is below Y-level 64.
+  #   If 'false', it will also take effect above the ground. That's usually fine.
+  underSeaLevelOnly: false
+  # Disable creeper block modification in GriefPrevention claims. Note that, down the
+  #   config, it will be overridden for some blocks where it is set to 'true'.
+  disableInClaims: false
+  # Disable creeper block transformations by creeper explosions in WorldGuard regions.
+  #   Admin claims of GriefPrevention also count as regions.
+  disableInRegions: true
+
+# Blocks that should be affected (transformed) by creeper explosions are defined down here.
+#   For example:
+#   - STONE:      is a block, so this is triggered when a stone block explodes
+#   - TRIMMABLE:  is not a block, so its block-list is defined down the config
+# All allowed materials: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+#   If an invalid Material is used, its block-list must be defined at 'blockDefinitions'.
+creeperTransformBlocks:
+  # Not a Material ('TRIMMABLE'), so its blocks are defined at 'blockDefinitions' down
+  #   the config. In this case, it's: GRASS_BLOCK and MYCELIUM. What to do with these
+  #   blocks when a creeper explosion effects these blocks?
   TRIMMABLE:
-    # Enable this block modification under sea level only, which is below Y 64.
-    underSeaLevelOnly: false
-    # Disable the modification of this block in GriefPrevention claims.
-    disableInClaims: false
+    # Convert the affected blocks (in this case GRASS_BLOCK and MYCELIUM) into ...
     conversion:
-      # The exploded block will be converted to 8% coarse dirt and 92% dirt.
-      COARSE_DIRT: 0.08
-      DIRT: 0.92
-  # This is a Material in Minecraft, so it is not defined down the config.
+      # The affected block by the explosion will be converted to ...
+      COARSE_DIRT: 0.08   # 8% coarse dirt
+      DIRT: 0.92          # and 92% dirt
+  # This is a Material (STONE), so it is not defined down the config.
   STONE:
+    # This value was already defined at 'defaultValues', and default set to 'false', but we
+    # want to override it for this block and only have it under sea level for STONE.
     underSeaLevelOnly: true
-    disableInClaims: false
     conversion:
       INFESTED_COBBLESTONE: 0.01
       COBBLESTONE: 0.99
   SNOW:
-    underSeaLevelOnly: false
-    disableInClaims: false
     conversion:
+      # All snow layers will be broken (particle effects play) and set to AIR.
       AIR: 1.00
   GRASSES:
-    underSeaLevelOnly: false
-    disableInClaims: false
     conversion:
       AIR: 1.00
   LEAVES:
-    underSeaLevelOnly: false
+    # Override this value from its default (false), and set it to not break leaves by
+    #   creeper explosions in GriefPrevention claims.
     disableInClaims: true
     conversion:
       AIR: 1.00
   FLOWERS:
-    underSeaLevelOnly: false
     disableInClaims: true
     conversion:
       AIR: 1.00
   GLASS_PANES:
-    underSeaLevelOnly: false
     disableInClaims: true
     conversion:
       # The exploded block will be converted to 20% air and 80% stay intact.
       AIR: 0.20
 
-# The definitions for non-existing blocks used above; like LEAVES, GRASSES, FLOWERS.
-definitions:
+# The definitions for non-existing blocks used above: like LEAVES, GRASSES, FLOWERS.
+blockDefinitions:
   TRIMMABLE:
     - GRASS_BLOCK
     - MYCELIUM
