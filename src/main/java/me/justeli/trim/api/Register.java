@@ -111,8 +111,8 @@ public class Register implements BukkitTaskSource
             return;
         }
 
-        if (commandManager.queryCapability(CloudBukkitCapabilities.BRIGADIER))
-            commandManager.registerBrigadier();
+        //if (commandManager.queryCapability(CloudBukkitCapabilities.BRIGADIER))
+        //    commandManager.registerBrigadier();
 
         if (commandManager.queryCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION))
             ((PaperCommandManager<CommandSender>) this.commandManager).registerAsynchronousCompletions();

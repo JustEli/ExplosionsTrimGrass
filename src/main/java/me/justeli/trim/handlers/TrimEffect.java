@@ -86,14 +86,14 @@ public class TrimEffect
                 if (setTo == Material.AIR)
                 {
                     world.playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                    block.breakNaturally();
                 }
                 else if (block.getLocation().getBlock().getRelative(BlockFace.UP).getType() == Material.AIR)
                 {
                     Location location = block.getLocation().clone().add(0.5, 1.05, 0.5);
                     world.spawnParticle(Particle.BLOCK_CRACK, location, 30, 0.5, 0, 0.5, block.getType().createBlockData());
+                    block.setType(setTo);
                 }
-
-                block.setType(setTo);
             }
         });
 
