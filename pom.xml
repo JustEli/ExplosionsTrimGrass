@@ -6,15 +6,18 @@
 
     <groupId>me.justeli.trim</groupId>
     <artifactId>CreepersTrimGrass</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>CreepersTrimGrass</name>
     <url>https://www.spigotmc.org/resources/creepers-trim-grass.73305/</url>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <versions.cloud>1.4.0</versions.cloud>
+
+        <versions.minecraft.minor>1.17</versions.minecraft.minor>
+        <versions.minecraft.major>1.17</versions.minecraft.major>
     </properties>
 
     <repositories>
@@ -43,9 +46,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.3.0-SNAPSHOT</version>
                 <configuration>
-
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <filters>
                         <filter>
@@ -59,21 +61,17 @@
 
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>me.justeli.trim.bstats</shadedPattern>
+                            <shadedPattern>me.justeli.trim.shade.bstats</shadedPattern>
                         </relocation>
 
                         <relocation>
-                            <pattern>cloud.commandframework</pattern>
-                            <shadedPattern>me.justeli.trim.cloud</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>io.leangen.geantyref</pattern>
-                            <shadedPattern>me.justeli.trim.cloud.typetoken</shadedPattern>
+                            <pattern>me.justeli.dynamiccommands</pattern>
+                            <shadedPattern>me.justeli.trim.shade.dc</shadedPattern>
                         </relocation>
 
                         <relocation>
                             <pattern>community.leaf.tasks</pattern>
-                            <shadedPattern>me.justeli.trim.tasks</shadedPattern>
+                            <shadedPattern>me.justeli.trim.shade.tasks</shadedPattern>
                         </relocation>
 
                     </relocations>
@@ -112,7 +110,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <version>${versions.minecraft.minor}-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -132,21 +130,20 @@
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>2.2.1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>community.leaf.tasks</groupId>
             <artifactId>tasks-bukkit</artifactId>
             <version>723f413085</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.commandframework</groupId>
-            <artifactId>cloud-paper</artifactId>
-            <version>${versions.cloud}</version>
+            <groupId>me.justeli.dynamiccommands.spigot</groupId>
+            <artifactId>dynamiccommands-spigot</artifactId>
+            <version>0.1.1</version>
+            <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>cloud.commandframework</groupId>
-            <artifactId>cloud-annotations</artifactId>
-            <version>${versions.cloud}</version>
-        </dependency>
+
     </dependencies>
 </project>

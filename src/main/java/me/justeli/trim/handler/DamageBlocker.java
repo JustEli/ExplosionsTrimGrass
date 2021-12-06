@@ -1,4 +1,4 @@
-package me.justeli.trim.handlers;
+package me.justeli.trim.handler;
 
 import me.justeli.trim.CreepersTrimGrass;
 import org.bukkit.entity.Creeper;

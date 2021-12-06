@@ -3,7 +3,7 @@ name: "${project.name}"
 version: "${project.version}"
 author: JustEli
 website: "${project.url}"
-api-version: "1.14"
+api-version: "${versions.minecraft.major}"
 loadbefore:
   - GriefPrevention
   - WorldGuard

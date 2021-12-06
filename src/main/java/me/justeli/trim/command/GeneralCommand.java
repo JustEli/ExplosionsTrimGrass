@@ -1,13 +1,10 @@
-package me.justeli.trim.commands;
+package me.justeli.trim.command;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.CommandPermission;
-import cloud.commandframework.annotations.specifier.Completions;
 import community.leaf.tasks.bukkit.BukkitTaskSource;
+import me.justeli.dynamiccommands.spigot.Command;
+import me.justeli.dynamiccommands.spigot.DynamicCommands;
 import me.justeli.trim.CreepersTrimGrass;
 import me.justeli.trim.api.Util;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -43,35 +40,35 @@ public class GeneralCommand
                 instance.getLogger().warning(" ------------------------------------------------------------------");
             }
         });
+
+        DynamicCommands dynamicCommands = DynamicCommands.of(instance);
+
+        Command command = Command.of("ctg", "creeperstrimgrass").permission("creeperstrimgrass.admin");
+
+        command.staticArgument("help").executes(details ->
+        {
+            details.sender().sendMessage(Util.color("&e/creeperstrimgrass help &f- show this page"));
+            details.sender().sendMessage(Util.color("&e/creeperstrimgrass reload &f- reload config settings"));
+            details.sender().sendMessage(Util.color("&e/creeperstrimgrass version &f- check for updates"));
+        });
+
+        command.staticArgument("reload").executes(details ->
+        {
+            details.sender().sendMessage(Util.color("&eConfig has been reloaded in &a" + instance.getConfigCache().reload() + "ms&e."));
+        });
+
+        command.staticArgument("version").executes(details ->
+        {
+            details.sender().sendMessage(Util.color("&eCurrently running version: &f" + instance.getDescription().getVersion()));
+            details.sender().sendMessage(Util.color("&eLatest version: &f" + latestVersion));
+        });
+
+        command.register(dynamicCommands);
     }
 
     @Override
     public Plugin plugin()
     {
         return instance;
-    }
-
-    @CommandMethod("creeperstrimgrass [argument]")
-    @CommandPermission("creeperstrimgrass.admin")
-    public void ctg (CommandSender sender,
-            @Argument("argument") @Completions("help, reload, version") String argument)
-    {
-        if (argument == null || argument.equalsIgnoreCase("help"))
-        {
-            sender.sendMessage(Util.color("&e/creeperstrimgrass help &f- show this page"));
-            sender.sendMessage(Util.color("&e/creeperstrimgrass reload &f- reload config settings"));
-            sender.sendMessage(Util.color("&e/creeperstrimgrass version &f- check for updates"));
-            return;
-        }
-
-        switch (argument.toLowerCase())
-        {
-            case "reload":
-                sender.sendMessage(Util.color("&eConfig has been reloaded in &a" + instance.getConfigCache().reload() + "ms&e."));
-                return;
-            case "version":
-                sender.sendMessage(Util.color("&eCurrently running version: &f" + instance.getDescription().getVersion()));
-                sender.sendMessage(Util.color("&eLatest version: &f" + latestVersion));
-        }
     }
 }

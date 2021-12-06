@@ -1,13 +1,9 @@
-package me.justeli.trim.handlers;
+package me.justeli.trim.handler;
 
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.sk89q.worldguard.protection.regions.RegionQuery;
 import community.leaf.tasks.bukkit.BukkitTaskSource;
 import me.justeli.trim.CreepersTrimGrass;
 import me.justeli.trim.config.ConfiguredBlock;
 import me.justeli.trim.event.CreeperTrimEvent;
-import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
