@@ -83,10 +83,11 @@ blockDefinitions:
   LEAVES:
     - OAK_LEAVES
     - SPRUCE_LEAVES
-    - BRICH_LEAVES
+    - BIRCH_LEAVES
     - JUNGLE_LEAVES
     - ACACIA_LEAVES
     - DARK_OAK_LEAVES
+    - MANGROVE_LEAVES
   GRASSES:
     - GRASS
     - FERN
@@ -94,7 +95,7 @@ blockDefinitions:
     - TALL_GRASS
     - DEAD_BUSH
   FLOWERS:
-    - DANDELLION
+    - DANDELION
     - POPPY
     - BLUE_ORCHID
     - ALLIUM
@@ -112,7 +113,7 @@ blockDefinitions:
     - PEONY
     - OAK_SAPLING
     - SPRUCE_SAPLING
-    - BRICH_SAPLING
+    - BIRCH_SAPLING
     - JUNGLE_SAPLING
     - ACACIA_SAPLING
     - DARK_OAK_SAPLING
