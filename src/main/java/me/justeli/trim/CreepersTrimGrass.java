@@ -15,6 +15,10 @@ import java.util.concurrent.Executors;
 public class CreepersTrimGrass
     extends JavaPlugin
 {
+    // todo:
+    //  - choose y-level instead of sea level
+    //  - blacklist for biomes
+
     public static final ExecutorService ASYNC_EXECUTOR = Executors.newSingleThreadExecutor();
     private ConfigCache configCache;
 
