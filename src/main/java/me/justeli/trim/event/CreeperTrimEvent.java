@@ -12,11 +12,9 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.List;
 
-/**
- * Created by Eli on April 29, 2021.
- * CreepersTrimGrass: me.justeli.trim
- */
-public class CreeperTrimEvent extends Event
+/* Eli @ April 29, 2021 (me.justeli.trim) */
+public class CreeperTrimEvent
+    extends Event
 {
     private final EntityExplodeEvent event;
     private final boolean belowSeaLevel;
@@ -62,16 +60,16 @@ public class CreeperTrimEvent extends Event
     }
 
 
+    private static final HandlerList HANDLER_LIST = new HandlerList();
+
     @Override
     public HandlerList getHandlers ()
     {
-        return handlers;
+        return HANDLER_LIST;
     }
-
-    private static final HandlerList handlers = new HandlerList();
 
     public static HandlerList getHandlerList ()
     {
-        return handlers;
+        return HANDLER_LIST;
     }
 }

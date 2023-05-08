@@ -8,12 +8,14 @@ import me.justeli.trim.integration.Integration;
 import me.justeli.trim.handler.TrimEffect;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/**
- * Created by Eli on 9 dec. 2019.
- * spigotPlugins: me.justeli.trim
- */
-public class CreepersTrimGrass extends JavaPlugin
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/* Eli @ December 9, 2019 (me.justeli.trim) */
+public class CreepersTrimGrass
+    extends JavaPlugin
 {
+    public static final ExecutorService ASYNC_EXECUTOR = Executors.newSingleThreadExecutor();
     private ConfigCache configCache;
 
     @Override
@@ -23,8 +25,11 @@ public class CreepersTrimGrass extends JavaPlugin
         configCache.init();
 
         Register register = new Register(this);
-
-        register.events(new TrimEffect(this), new Integration(), new DamageBlocker(this));
+        register.events(
+            new TrimEffect(this),
+            new Integration(),
+            new DamageBlocker(this)
+        );
 
         new GeneralCommand(this);
 

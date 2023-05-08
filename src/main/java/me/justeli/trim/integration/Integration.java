@@ -6,36 +6,33 @@ import org.bukkit.event.server.PluginEnableEvent;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Created by Eli on August 09, 2020.
- * CreepersTrimGrass: me.justeli.trim
- */
+/* Eli @ August 09, 2020 (me.justeli.trim) */
 public class Integration
-        implements Listener
+    implements Listener
 {
-    private static final AtomicBoolean worldGuardLoaded = new AtomicBoolean(false);
-    private static final AtomicBoolean griefPreventionLoaded = new AtomicBoolean(false);
+    private static final AtomicBoolean WORLD_GUARD_LOADED = new AtomicBoolean(false);
+    private static final AtomicBoolean GRIEF_PREVENTION_LOADED = new AtomicBoolean(false);
 
     @EventHandler
-    public void on (PluginEnableEvent event)
+    public void onPluginEnableEvent (PluginEnableEvent event)
     {
         switch (event.getPlugin().getName())
         {
             case "WorldGuard":
-                worldGuardLoaded.set(true);
+                WORLD_GUARD_LOADED.set(true);
                 return;
             case "GriefPrevention":
-                griefPreventionLoaded.set(true);
+                GRIEF_PREVENTION_LOADED.set(true);
         }
     }
 
     public static boolean isGriefPreventionLoaded ()
     {
-        return griefPreventionLoaded.get();
+        return GRIEF_PREVENTION_LOADED.get();
     }
 
     public static boolean isWorldGuardLoaded ()
     {
-        return worldGuardLoaded.get();
+        return WORLD_GUARD_LOADED.get();
     }
 }

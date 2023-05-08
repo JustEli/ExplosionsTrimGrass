@@ -8,22 +8,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-/**
- * Created by Eli on April 29, 2021.
- * CreepersTrimGrass: me.justeli.trim.handlers
- */
-public class DamageBlocker implements Listener
+/* Eli @ April 29, 2021 (me.justeli.trim.handlers) */
+public class DamageBlocker
+    implements Listener
 {
-    private final CreepersTrimGrass instance;
-    public DamageBlocker (CreepersTrimGrass instance)
+    private final CreepersTrimGrass plugin;
+
+    public DamageBlocker (CreepersTrimGrass plugin)
     {
-        this.instance = instance;
+        this.plugin = plugin;
     }
 
     @EventHandler
-    public void onNonMobDamage (EntityDamageByEntityEvent event)
+    public void onEntityDamageByEntityEvent (EntityDamageByEntityEvent event)
     {
-        if (instance.getConfigCache().disableDamageToNonMobs())
+        if (plugin.getConfigCache().disableDamageToNonMobs())
             return;
 
         if (event.getDamager() instanceof Creeper && !(event.getEntity() instanceof Mob) && !(event.getEntity() instanceof Player))

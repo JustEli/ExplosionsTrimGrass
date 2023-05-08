@@ -4,13 +4,10 @@ import org.bukkit.Material;
 
 import java.util.Map;
 import java.util.NavigableMap;
-import java.util.Random;
+import java.util.SplittableRandom;
 import java.util.TreeMap;
 
-/**
- * Created by Eli on April 29, 2021.
- * CreepersTrimGrass: me.justeli.trim.config
- */
+/* Eli @ April 29, 2021 (me.justeli.trim.config) */
 public class ConfiguredBlock
 {
     private final Material material;
@@ -19,13 +16,13 @@ public class ConfiguredBlock
     private final boolean disabledInRegions;
     private final NavigableMap<Double, Material> transformations = new TreeMap<>();
 
-    private final Random random = new Random();
+    private static final SplittableRandom RANDOM = new SplittableRandom();
 
     public ConfiguredBlock (Material material,
-            boolean underSeaLevelOnly,
-            boolean disabledInClaims,
-            boolean disabledInRegions,
-            Map<String, Object> transformations)
+                            boolean underSeaLevelOnly,
+                            boolean disabledInClaims,
+                            boolean disabledInRegions,
+                            Map<String, Object> transformations)
     {
         this.material = material;
         this.underSeaLevelOnly = underSeaLevelOnly;
@@ -38,6 +35,7 @@ public class ConfiguredBlock
             this.transformations.put(adding, Material.matchMaterial(map.getKey().toUpperCase()));
             adding += (double) map.getValue();
         }
+
         this.transformations.put(adding, null);
     }
 
@@ -63,7 +61,7 @@ public class ConfiguredBlock
 
     public Material getRandomTransform ()
     {
-        Map.Entry<Double, Material> map = transformations.floorEntry(random.nextDouble());
+        Map.Entry<Double, Material> map = this.transformations.floorEntry(RANDOM.nextDouble());
         return map == null? null : map.getValue();
     }
 }

@@ -12,17 +12,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Created by Eli on August 09, 2020.
- * CreepersTrimGrass: me.justeli.trim
- */
+/* Eli @ August 09, 2020 (me.justeli.trim) */
 public class ConfigCache
 {
-    private final CreepersTrimGrass instance;
+    private final CreepersTrimGrass plugin;
 
-    public ConfigCache (CreepersTrimGrass instance)
+    public ConfigCache (CreepersTrimGrass plugin)
     {
-        this.instance = instance;
+        this.plugin = plugin;
     }
 
     private final AtomicBoolean disableDamageToNonMobs = new AtomicBoolean();
@@ -44,20 +41,24 @@ public class ConfigCache
     {
         try
         {
-            return definitions.computeIfAbsent(name.toUpperCase(), empty ->
-                    new HashSet<>(Collections.singleton(Material.matchMaterial(name.toUpperCase()))));
+            return this.definitions.computeIfAbsent(
+                name.toUpperCase(),
+                empty -> new HashSet<>(Collections.singleton(Material.matchMaterial(name.toUpperCase())))
+            );
         }
         catch (EnumConstantNotPresentException exception)
         {
-            instance.getLogger().warning(String.format("Found '%s' in 'creeperTransformBlocks', but it is not a defined block. Skipped.",
-                    name.toUpperCase()));
+            plugin.getLogger().warning(String.format(
+                "Found '%s' in 'creeperTransformBlocks', but it is not a defined block. Skipped.",
+                name.toUpperCase()
+            ));
             return null;
         }
     }
 
     public void init ()
     {
-        instance.saveDefaultConfig();
+        plugin.saveDefaultConfig();
         load();
     }
 
@@ -65,7 +66,7 @@ public class ConfigCache
     {
         long current = System.currentTimeMillis();
 
-        instance.reloadConfig();
+        plugin.reloadConfig();
         configuredBlocks.clear();
         definitions.clear();
         load();
@@ -75,7 +76,7 @@ public class ConfigCache
 
     private void load ()
     {
-        FileConfiguration config = instance.getConfig();
+        FileConfiguration config = plugin.getConfig();
 
         disableDamageToNonMobs.set(config.getBoolean("disableDamageToNonMobs", true));
         setDefinitions(config.getConfigurationSection("blockDefinitions"));
@@ -96,16 +97,22 @@ public class ConfigCache
             {
                 try
                 {
-                    converted.add(Material.matchMaterial(material.toUpperCase()));
+                    var matched = Material.matchMaterial(material.toUpperCase());
+                    if (matched == null) throw new IllegalArgumentException();
+
+                    converted.add(matched);
                 }
-                catch (EnumConstantNotPresentException exception)
+                catch (EnumConstantNotPresentException | IllegalArgumentException exception)
                 {
-                    instance.getLogger().warning(String.format("Found '%s' in the definition list of '%s', but it is not a material. Skipped.",
-                            material.toUpperCase(), key.toUpperCase()));
+                    plugin.getLogger().warning(String.format(
+                        "Found '%s' in the definition list of '%s', but it is not a material. Skipped.",
+                        material.toUpperCase(),
+                        key.toUpperCase()
+                    ));
                 }
             }
 
-            definitions.put(key.toUpperCase(), converted);
+            this.definitions.put(key.toUpperCase(), converted);
         }
     }
 
@@ -142,11 +149,13 @@ public class ConfigCache
 
             for (Material material : materials)
             {
-                configuredBlocks.put(material, new ConfiguredBlock(material,
-                        part.getBoolean("underSeaLevelOnly", underSeaLevelOnly),
-                        part.getBoolean("disableInClaims", disableInClaims),
-                        part.getBoolean("disableInRegions", disableInRegions),
-                        conversion.getValues(false)));
+                this.configuredBlocks.put(material, new ConfiguredBlock(
+                    material,
+                    part.getBoolean("underSeaLevelOnly", underSeaLevelOnly),
+                    part.getBoolean("disableInClaims", disableInClaims),
+                    part.getBoolean("disableInRegions", disableInRegions),
+                    conversion.getValues(false)
+                ));
             }
         }
     }

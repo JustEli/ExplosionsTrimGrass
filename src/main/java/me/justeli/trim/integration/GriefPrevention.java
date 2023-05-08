@@ -2,10 +2,7 @@ package me.justeli.trim.integration;
 
 import org.bukkit.Location;
 
-/**
- * Created by Eli on April 29, 2021.
- * CreepersTrimGrass: me.justeli.trim.integration
- */
+/* Eli @ April 29, 2021 (me.justeli.trim.integration) */
 public class GriefPrevention
 {
     public static boolean isClaimAt (Location location)

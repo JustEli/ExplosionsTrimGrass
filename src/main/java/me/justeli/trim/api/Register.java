@@ -1,65 +1,36 @@
 package me.justeli.trim.api;
 
-import community.leaf.tasks.bukkit.BukkitTaskSource;
 import me.justeli.trim.CreepersTrimGrass;
 import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SimplePie;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-/**
- * Created by Eli on April 29, 2021.
- * CreepersTrimGrass: me.justeli.trim.api
- */
-public class Register implements BukkitTaskSource
+/* Eli @ April 29, 2021 (me.justeli.trim.api) */
+public class Register
 {
-    private final CreepersTrimGrass instance;
+    private final CreepersTrimGrass plugin;
 
-    public Register (CreepersTrimGrass instance)
+    public Register (CreepersTrimGrass plugin)
     {
-        this.instance = instance;
-    }
-
-    @Override
-    public Plugin plugin ()
-    {
-        return instance;
+        this.plugin = plugin;
     }
 
     public void events (Listener... listeners)
     {
-        PluginManager manager = instance.getServer().getPluginManager();
+        var manager = plugin.getServer().getPluginManager();
         for (Listener listener : listeners)
         {
-            manager.registerEvents(listener, instance);
+            manager.registerEvents(listener, plugin);
         }
     }
 
     public void metrics (final int pluginId, final Consumer<Metric> consumer)
     {
-        async().delay(1, TimeUnit.MINUTES).run(() ->
+        CreepersTrimGrass.ASYNC_EXECUTOR.submit(() ->
         {
-            Metrics metrics = new Metrics(instance, pluginId);
+            Metrics metrics = new Metrics(plugin, pluginId);
             consumer.accept(new Metric(metrics));
         });
-    }
-
-    public static class Metric
-    {
-        private final Metrics metrics;
-
-        public Metric (Metrics metrics)
-        {
-            this.metrics = metrics;
-        }
-
-        public void add (String key, Object value)
-        {
-            metrics.addCustomChart(new SimplePie(key, value::toString));
-        }
     }
 }

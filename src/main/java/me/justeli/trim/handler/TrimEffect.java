@@ -1,6 +1,5 @@
 package me.justeli.trim.handler;
 
-import community.leaf.tasks.bukkit.BukkitTaskSource;
 import me.justeli.trim.CreepersTrimGrass;
 import me.justeli.trim.config.ConfiguredBlock;
 import me.justeli.trim.event.CreeperTrimEvent;
@@ -8,7 +7,6 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Creeper;
@@ -16,53 +14,43 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Eli on 4 jan 2017.
- * Survival Rocks: me.justeli.trim
- */
+/* Eli @ January 4, 2017 (me.justeli.trim) */
 public class TrimEffect
-        implements Listener, BukkitTaskSource
+    implements Listener
 {
-    private final CreepersTrimGrass instance;
+    private final CreepersTrimGrass plugin;
 
-    public TrimEffect (CreepersTrimGrass instance)
+    public TrimEffect (CreepersTrimGrass plugin)
     {
-        this.instance = instance;
-    }
-
-    @Override
-    public Plugin plugin ()
-    {
-        return instance;
+        this.plugin = plugin;
     }
 
     @EventHandler (priority = EventPriority.LOWEST)
-    public void explodeEvent (EntityExplodeEvent event)
+    public void onEntityExplodeEvent (EntityExplodeEvent event)
     {
         if (!(event.getEntity() instanceof Creeper))
             return;
 
-        instance.getServer().getPluginManager().callEvent(new CreeperTrimEvent(event));
+        plugin.getServer().getPluginManager().callEvent(new CreeperTrimEvent(event));
     }
 
     @EventHandler
-    public void creeperTrimEvent (CreeperTrimEvent event)
+    public void onCreeperTrimEvent (CreeperTrimEvent event)
     {
-        World world = event.getLocation().getWorld();
+        var world = event.getLocation().getWorld();
         if (world == null)
             return;
 
         final List<Block> blockList = new ArrayList<>(event.getBlockList());
-        sync().delay(1).ticks().run(() ->
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () ->
         {
             for (Block block : blockList)
             {
-                ConfiguredBlock configuredBlock = instance.getConfigCache().getConfiguredBlock(block.getType());
+                ConfiguredBlock configuredBlock = plugin.getConfigCache().getConfiguredBlock(block.getType());
                 if (configuredBlock == null)
                     continue;
 
@@ -91,7 +79,7 @@ public class TrimEffect
                     block.setType(setTo);
                 }
             }
-        });
+        }, 1);
 
         event.getBlockList().clear();
     }
